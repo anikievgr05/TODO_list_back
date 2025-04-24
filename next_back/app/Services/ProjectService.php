@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Project\CreateDTO;
 use App\DTO\Project\IndexDTO;
 use App\DTO\Project\ReadDTO;
+use App\DTO\ShowDTO;
 use App\Repositories\ProjectRepositories;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,12 @@ class ProjectService
         return $dto;
     }
 
-
+    public function show(ShowDTO $data): ReadDTO
+    {
+        $model = $this->repositories->find($data->get('id'));
+        $dto = ReadDTO::fromModel($model);
+        return $dto;
+    }
     /**
      * создаем новый проект
      *

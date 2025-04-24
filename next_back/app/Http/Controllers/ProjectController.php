@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Project\CreateDTO;
+use App\DTO\ShowDTO;
 use App\Http\Requests\Project\CreateRequests;
+use App\Http\Requests\Project\ShowRequest;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,9 +36,13 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(ShowRequest $request, ProjectService $service)
     {
-        //
+        $dto = ShowDTO::fromArray(['id' => (int) $request->route('project')]);
+        $data = $service->show($dto);
+        return response()->json([
+            'project' => $data->toArray(),
+        ], 201);
     }
 
     /**

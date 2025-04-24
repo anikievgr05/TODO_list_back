@@ -32,6 +32,18 @@ abstract class BaseDTO
     }
 
     /**
+     * Получение значения по ключу.
+     *
+     * @param string $key
+     * @param mixed $default Значение по умолчанию, если ключ не существует
+     * @return mixed
+     */
+    public function get(string $key)
+    {
+        return $this->$key;
+    }
+
+    /**
      * Преобразование DTO в массив.
      *
      * @return array
