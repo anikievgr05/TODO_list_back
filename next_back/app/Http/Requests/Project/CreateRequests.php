@@ -24,7 +24,7 @@ class CreateRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:10', 'min:2'],
+            'name' => ['required', 'string', 'max:10', 'min:2', 'unique:projects,name'],
             'description' => ['required', 'string', 'min:10', 'max:50']
         ];
     }
@@ -41,6 +41,7 @@ class CreateRequests extends FormRequest
             'name.string' => '# Поле "Название" должно быть строкой.',
             'name.max' => '# Поле "Название" не должно превышать :max символов.',
             'name.min' => '# Поле "Название" не должно быть меньше :min символов.',
+            'name.unique' => '# Проект с таким названием уже существует.',
             'description.required' => '# Поле "Описание" обязательно для заполнения.',
             'description.string' => '# Поле "Описание" должно быть строкой.',
             'description.max' => '# Поле "Описание" не должно превышать :max символов.',
