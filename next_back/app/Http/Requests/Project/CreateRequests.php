@@ -25,7 +25,7 @@ class CreateRequests extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:10', 'min:2'],
-            'description' => ['required', 'string', 'max:50']
+            'description' => ['required', 'string', 'min:10', 'max:50']
         ];
     }
 
@@ -37,13 +37,13 @@ class CreateRequests extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Поле "Название" обязательно для заполнения.',
-            'name.string' => 'Поле "Название" должно быть строкой.',
-            'name.max' => 'Поле "Название" не должно превышать :max символов.',
-            'name.min' => 'Поле "Название" не должно быть меньше :min символов.',
-            'description.required' => 'Поле "Описание" обязательно для заполнения.',
-            'description.string' => 'Поле "Описание" должно быть строкой.',
-            'description.max' => 'Поле "Описание" не должно превышать :max символов.',
+            'name.required' => '# Поле "Название" обязательно для заполнения.',
+            'name.string' => '# Поле "Название" должно быть строкой.',
+            'name.max' => '# Поле "Название" не должно превышать :max символов.',
+            'name.min' => '# Поле "Название" не должно быть меньше :min символов.',
+            'description.required' => '# Поле "Описание" обязательно для заполнения.',
+            'description.string' => '# Поле "Описание" должно быть строкой.',
+            'description.max' => '# Поле "Описание" не должно превышать :max символов.',
         ];
     }
 
