@@ -13,9 +13,10 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ProjectService $service)
     {
-        //
+        $data = $service->index();
+        return response()->json($data->toArray(), 201);
     }
 
     /**
