@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ShowRequest extends FormRequest
+class ShowClosedProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class ShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project' => ['required', 'numeric', 'exists:projects,id', new CheckClose]
+            'project' => ['required', 'numeric', 'exists:projects,id']
         ];
     }
     public function validationData(): array

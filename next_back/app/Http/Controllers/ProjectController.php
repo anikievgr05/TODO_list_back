@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Project\CloseDTO;
 use App\DTO\Project\CreateDTO;
 use App\DTO\Project\UpdateDTO;
 use App\DTO\ShowDTO;
 use App\Http\Requests\Project\CreateRequests;
+use App\Http\Requests\Project\CloseRequests;
+use App\Http\Requests\Project\ShowClosedProjectRequest;
 use App\Http\Requests\Project\ShowRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Services\ProjectService;
@@ -60,10 +63,26 @@ class ProjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * получаем проект по id даже если он заблокирован
      */
-    public function destroy(string $id)
+    public function get_closed_project(ShowClosedProjectRequest $request, ProjectService $service)
     {
-        //
+        $dto = ShowDTO::fromArray(['id' => (int) $request->route('project')]);
+        $data = $service->show($dto);
+        return response()->json([
+            'project' => $data->toArray()
+        ], 201);
+    }
+
+    /**
+     * Закрывает проект
+     */
+    public function close(CloseRequests $request, ProjectService $service)
+    {
+        $dto = CloseDTO::fromArray($request->validated());
+        $data = $service->close($dto);
+        return response()->json([
+            'project' => $data->toArray()
+        ], 201);
     }
 }

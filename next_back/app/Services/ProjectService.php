@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Project\CloseDTO;
 use App\DTO\Project\CreateDTO;
 use App\DTO\Project\IndexDTO;
 use App\DTO\Project\ReadDTO;
@@ -33,7 +34,7 @@ class ProjectService
 
     public function show(ShowDTO $data): ReadDTO
     {
-        $model = $this->repositories->find($data->get('id'));
+        $model = $this->repositories->find($data->id);
         $dto = ReadDTO::fromModel($model);
         return $dto;
     }
@@ -53,6 +54,13 @@ class ProjectService
     public function update(UpdateDTO $data): ReadDTO
     {
         $model = $this->repositories->update($data->id, $data->toArray());
+        $dto = ReadDTO::fromModel($model);
+        return $dto;
+    }
+
+    public function close(CloseDTO $data): ReadDTO
+    {
+        $model = $this->repositories->update($data->get('id'), $data->toArray());
         $dto = ReadDTO::fromModel($model);
         return $dto;
     }

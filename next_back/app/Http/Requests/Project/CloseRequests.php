@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Project;
 
-use App\Rules\Project\CheckClose;
+use App\Rules\Project\IsClosed;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ShowRequest extends FormRequest
+class CloseRequests extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +25,18 @@ class ShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project' => ['required', 'numeric', 'exists:projects,id', new CheckClose]
+            'id' => ['required', 'numeric', 'exists:projects,id'],
+            'is_closed' => ['required', new IsClosed]
         ];
     }
-    public function validationData(): array
-    {
-        return array_merge($this->all(), $this->route()->parameters());
-    }
+
     public function messages(): array
     {
         return [
-            'project.required' => 'ID долже присутсвовать',
-            'project.numeric' => 'ID должен содержать число',
-            'project.exists' => 'Проект с таким ID не существет',
+            'id.required' => '# ID долже присутсвовать',
+            'id.numeric' => '# ID должен содержать число',
+            'id.exists' => '# Проект с таким ID не существет',
+            'is_closed.required' => '# Соглашение должно присутсвовать',
         ];
     }
     protected function failedValidation(Validator $validator)

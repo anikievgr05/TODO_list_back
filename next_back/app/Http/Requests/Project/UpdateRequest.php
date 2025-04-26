@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Rules\Project\CheckClose;
 use App\Rules\Project\UniqueNameRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -25,7 +26,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'numeric', 'exists:projects,id'],
+            'id' => ['required', 'numeric', 'exists:projects,id', new CheckClose],
             'name' => ['required', 'string', 'max:10', 'min:2', new UniqueNameRule($this->input('id'))],
             'description' => ['required', 'string', 'min:10', 'max:50']
         ];

@@ -20,4 +20,9 @@ class ReadDTO extends BaseDTO
      * @var string описание объекта
      */
     public string $description;
+
+    /**
+     * @var bool открыт/зарыт проект
+     */
+    public bool $is_closed;
 }
