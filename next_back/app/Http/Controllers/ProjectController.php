@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Project\CreateDTO;
+use App\DTO\Project\UpdateDTO;
 use App\DTO\ShowDTO;
 use App\Http\Requests\Project\CreateRequests;
 use App\Http\Requests\Project\ShowRequest;
+use App\Http\Requests\Project\UpdateRequest;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,16 +43,20 @@ class ProjectController extends Controller
         $dto = ShowDTO::fromArray(['id' => (int) $request->route('project')]);
         $data = $service->show($dto);
         return response()->json([
-            'project' => $data->toArray(),
+            'project' => $data->toArray()
         ], 201);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, ProjectService $service)
     {
-        //
+        $dto = UpdateDTO::fromArray($request->validated());
+        $data = $service->update($dto);
+        return response()->json([
+            'project' => $data->toArray()
+        ], 201);
     }
 
     /**

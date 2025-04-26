@@ -6,8 +6,8 @@ use App\Models\Project;
 
 class ProjectRepositories extends BaseRepositories
 {
-    public function __construct(Project $project)
+    public function __construct()
     {
-        $this->model = $project;
+        $this->model = new Project;
     }
 }

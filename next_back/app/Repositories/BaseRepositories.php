@@ -59,6 +59,22 @@ class BaseRepositories
     }
 
     /**
+     * получаем строки у которых $key = $value и при этом не равен $id
+     *
+     * @param string $key поле по которому искать
+     * @param string $value значение поля для $key
+     * @param int $id ID записей, которые мы должны исключить
+     */
+    public function get_by_key_excluding_id(string $key, string $value, int $id)
+    {
+        return $this->model
+            ->select('id')
+            ->where($key, '=', $value)
+            ->where('id', '!=', $id)
+            ->count();
+    }
+
+    /**
      * Удалить запись.
      *
      * @param int $id
