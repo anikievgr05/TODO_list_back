@@ -7,15 +7,14 @@ use App\DTO\Project\CreateDTO;
 use App\DTO\Project\GetByNameDTO;
 use App\DTO\Project\UpdateDTO;
 use App\DTO\ShowDTO;
-use App\Http\Requests\Project\CreateRequests;
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\Project\CloseRequests;
+use App\Http\Requests\Project\CreateRequests;
 use App\Http\Requests\Project\GetByNameRequest;
-use App\Http\Requests\Project\IndexRequest;
 use App\Http\Requests\Project\ShowClosedProjectRequest;
 use App\Http\Requests\Project\ShowRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Services\ProjectService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProjectController extends Controller

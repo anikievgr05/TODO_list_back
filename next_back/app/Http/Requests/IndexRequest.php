@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Project;
+namespace App\Http\Requests;
 
-use App\Rules\Project\IsClosed;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;

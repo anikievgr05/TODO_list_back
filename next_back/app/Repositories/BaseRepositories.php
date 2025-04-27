@@ -52,7 +52,8 @@ class BaseRepositories
     {
         $record = $this->model->find($id);
         if ($record) {
-            $record->update($data);
+            $record->fill($data);
+            $record->save();
             return $record;
         }
         return null;
