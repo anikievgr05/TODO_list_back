@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Project;
 
+use App\Rules\AgreementIsTrue;
 use App\Rules\Project\IsClosed;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,8 @@ class CloseRequests extends FormRequest
     {
         return [
             'id' => ['required', 'numeric', 'exists:projects,id'],
-            'is_closed' => ['required', new IsClosed]
+            'is_closed' => ['required', new IsClosed],
+            'agreement' => ['required', new AgreementIsTrue($this->input('is_closed'))]
         ];
     }
 
@@ -37,6 +39,7 @@ class CloseRequests extends FormRequest
             'id.numeric' => '# ID должен содержать число',
             'id.exists' => '# Проект с таким ID не существет',
             'is_closed.required' => '# Соглашение должно присутсвовать',
+            'agreement.required' => '# Поле должно быть обязательно заполнено'
         ];
     }
     protected function failedValidation(Validator $validator)
