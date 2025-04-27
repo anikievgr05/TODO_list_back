@@ -7,5 +7,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    require __DIR__.'/api/project.php';
 });
-require __DIR__.'/api/project.php';
