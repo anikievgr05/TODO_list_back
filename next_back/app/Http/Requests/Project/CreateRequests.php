@@ -24,7 +24,7 @@ class CreateRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:10', 'min:2', 'unique:projects,name'],
+            'name' => ['required', 'string', 'max:10', 'min:2', 'unique:projects,name', 'not_regex:/\s/', 'not_regex:/[^\w\s]/u'],
             'description' => ['required', 'string', 'min:10', 'max:50']
         ];
     }
@@ -38,6 +38,7 @@ class CreateRequests extends FormRequest
     {
         return [
             'name.required' => '# Поле "Название" обязательно для заполнения.',
+            'name.not_regex' => '# Имя не должно содержать пробелы и символы, отличные от английских букв.',
             'name.string' => '# Поле "Название" должно быть строкой.',
             'name.max' => '# Поле "Название" не должно превышать :max символов.',
             'name.min' => '# Поле "Название" не должно быть меньше :min символов.',

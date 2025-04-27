@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\DTO\Project\CloseDTO;
 use App\DTO\Project\CreateDTO;
+use App\DTO\Project\GetByNameDTO;
 use App\DTO\Project\UpdateDTO;
 use App\DTO\ShowDTO;
 use App\Http\Requests\Project\CreateRequests;
 use App\Http\Requests\Project\CloseRequests;
+use App\Http\Requests\Project\GetByNameRequest;
+use App\Http\Requests\Project\IndexRequest;
 use App\Http\Requests\Project\ShowClosedProjectRequest;
 use App\Http\Requests\Project\ShowRequest;
 use App\Http\Requests\Project\UpdateRequest;
@@ -20,9 +23,13 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProjectService $service)
+    public function index(IndexRequest $request, ProjectService $service)
     {
-        $data = $service->index();
+        if (!$request->with_closed){
+            $data = $service->index();
+        } else {
+            $data = $service->all_with_closed();
+        }
         return response()->json($data->toArray(), 201);
     }
 
@@ -81,6 +88,15 @@ class ProjectController extends Controller
     {
         $dto = CloseDTO::fromArray($request->validated());
         $data = $service->close($dto);
+        return response()->json([
+            'project' => $data->toArray()
+        ], 201);
+    }
+
+    public function get_by_name(GetByNameRequest $request, ProjectService $service)
+    {
+        $dto = GetByNameDTO::fromArray($request->validated());
+        $data = $service->get_by_name($dto);
         return response()->json([
             'project' => $data->toArray()
         ], 201);

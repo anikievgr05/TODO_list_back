@@ -10,7 +10,9 @@ class CheckClose implements ValidationRule
 {
     private ProjectRepositories $repositories;
 
-    public function __construct(){
+    private string $searchField;
+    public function __construct(string $searchField = 'id'){
+        $this->searchField = $searchField;
         $this->repositories = new ProjectRepositories;
     }
 
@@ -21,7 +23,7 @@ class CheckClose implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $model = $this->repositories->find($value);
+        $model = $this->repositories->get_by_field($this->searchField, $value);
         if ($model->is_closed) {
             $fail('# Проект заблокирован, сначала его следует разблокировать');
         }

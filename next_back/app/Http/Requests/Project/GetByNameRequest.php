@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Project;
 
-use App\Rules\AgreementIsTrue;
+use App\Rules\Project\CheckClose;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CloseRequests extends FormRequest
+class GetByNameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +24,21 @@ class CloseRequests extends FormRequest
      */
     public function rules(): array
     {
-
         return [
-            'id' => ['required', 'numeric', 'exists:projects,id'],
-            'is_closed' => ['required', 'boolean'],
-            'agreement' => ['required', 'boolean', new AgreementIsTrue($this->input('is_closed'))],
+            'project' => ['required', 'string', 'exists:projects,name', new CheckClose('name')]
         ];
     }
-
     public function messages(): array
     {
         return [
-            'id.required' => '# ID долже присутсвовать',
-            'id.numeric' => '# ID должен содержать число',
-            'id.exists' => '# Проект с таким ID не существет',
-            'is_closed.boolean' => '# Значение должно быть boolean',
-            'agreement.required' => '# Соглашение должно быть запрлненео',
-            'agreement.boolean' => '# Значение должно быть boolean',
+            'project.required' => 'Имя должно присутсвовать',
+            'project.string' => 'Имя должно содержать число',
+            'project.exists' => 'Проект с таким именем не существет',
         ];
+    }
+    public function validationData(): array
+    {
+        return array_merge($this->all(), $this->route()->parameters());
     }
     protected function failedValidation(Validator $validator)
     {

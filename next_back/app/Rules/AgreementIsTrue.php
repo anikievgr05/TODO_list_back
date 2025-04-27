@@ -8,8 +8,8 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class AgreementIsTrue implements ValidationRule
 {
     private bool $checkField;
-    public function __construct(bool $checkField = true) {
-        $this->checkField = $checkField;
+    public function __construct(mixed $checkField = '') {
+        $this->checkField = (bool)$checkField;
     }
     /**
      * Run the validation rule.
@@ -18,11 +18,7 @@ class AgreementIsTrue implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $booleanValue = filter_var($value, FILTER_VALIDATE_BOOLEAN);
-        if ($booleanValue !== true && $booleanValue !== false) {
-            $fail('# Поле должно быть boolean');
-        }
-        if ($this->checkField && !$booleanValue) {
+        if ($this->checkField && !$value) {
             $fail('# Поле должно быть заполнено, если Вы хотите выполнить действие');
         }
     }

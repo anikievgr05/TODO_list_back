@@ -58,6 +58,13 @@ class BaseRepositories
         return null;
     }
 
+    public function get_by_field(string $field, int | string $value)
+    {
+        return $this->model
+            ->where($field, $value)
+            ->first();
+    }
+
     /**
      * получаем строки у которых $key = $value и при этом не равен $id
      *
