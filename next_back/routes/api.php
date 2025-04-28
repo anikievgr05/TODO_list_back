@@ -7,10 +7,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    require __DIR__.'/api/project.php';
 
 });
 // TODO перенести на верх
+require __DIR__.'/api/project.php';
 Route::group(['prefix' => '{project_id}', 'middleware' => 'validate.project'], function () {
     require __DIR__ . '/api/tracker.php';
     require __DIR__ . '/api/role.php';

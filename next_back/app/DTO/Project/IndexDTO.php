@@ -18,7 +18,7 @@ class IndexDTO extends BaseDTO
      * @param Collection $projects
      * @return self
      */
-    public static function fromCollection(Collection $projects): self
+    public static function fromCollectionProject(Collection $projects): self
     {
         $data = [];
         $data = collect($projects)->map(function ($project) {

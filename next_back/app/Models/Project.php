@@ -14,12 +14,16 @@ class Project extends Model
         return $this->hasMany(Tracker::class);
     }
 
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    }
     protected static function booted()
     {
         static::updating(function ($project) {
-            // Обновляем все связанные комментарии, если ID поста изменился
             if ($project->isDirty('is_closed')) {
                 $project->trackers()->update(['is_closed' => $project->is_closed]);
+                $project->roles()->update(['is_closed' => $project->is_closed]);
             }
         });
     }
