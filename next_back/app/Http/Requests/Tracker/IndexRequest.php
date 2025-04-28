@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Project;
+namespace App\Http\Requests\Tracker;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ShowClosedProjectRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,25 @@ class ShowClosedProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project' => ['required', 'numeric', 'exists:projects,id']
+            'with_closed' => ['boolean'],
+            'project_id' => ['required', 'numeric']
         ];
     }
-    public function validationData(): array
-    {
-        return array_merge($this->all(), $this->route()->parameters());
-    }
+
     public function messages(): array
     {
         return [
-            'project.required' => 'ID долже присутсвовать',
-            'project.numeric' => 'ID должен содержать число',
-            'project.exists' => 'Проект с таким ID не существет',
+            'with_closed' => '# Атрибут должен быть boolean',
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
+    }
+
+    public function validationData(): array
+    {
+        return array_merge($this->all(), $this->route()->parameters(), $this->attributes());
     }
 }

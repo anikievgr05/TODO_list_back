@@ -28,7 +28,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:20', 'min:2', new UniqueName($this->input('id'), new TrackerRepositories())],
-            'id' => ['required', 'numeric', 'exists:projects,id', new CheckClosed(new TrackerRepositories())],
+            'id' => ['required', 'numeric', 'exists:trackers,id', new CheckClosed(new TrackerRepositories())],
         ];
     }
 

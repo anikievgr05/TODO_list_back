@@ -19,6 +19,13 @@ class BaseRepositories
         return $this->model->all();
     }
 
+    public function all_by_parent(int $parent_id)
+    {
+        return $this->model
+            ->where('parent_id', $parent_id)
+            ->get();
+    }
+
     /**
      * Найти запись по ID.
      *

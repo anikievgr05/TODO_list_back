@@ -8,5 +8,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     require __DIR__.'/api/project.php';
+
 });
 require __DIR__.'/api/tracker.php';

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Tracker;
 
 use App\Repositories\TrackerRepositories;
 use App\Rules\CheckClosed;
-use App\Rules\Project\CheckClose;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -43,7 +42,7 @@ class ShowRequest extends FormRequest
 
     public function validationData(): array
     {
-        return array_merge($this->all(), $this->route()->parameters());
+        return array_merge($this->all(), $this->route()->parameters(), $this->attributes());
     }
 
     public function messages(): array

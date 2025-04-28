@@ -25,9 +25,9 @@ class TrackerService
     public function index($data): IndexDTO
     {
         if (!isset($data['with_closed']) || !$data['with_closed']) {
-            $model = $this->repositories->all();
+            $model = $this->repositories->all_by_parent($data['project_id']);
         } else {
-            $model = $this->repositories->all_with_closed();
+            $model = $this->repositories->all_with_closed($data['project_id']);
         }
         $dto = IndexDTO::fromCollection($model);
         return $dto;
