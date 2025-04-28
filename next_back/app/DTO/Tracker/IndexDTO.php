@@ -10,7 +10,7 @@ class IndexDTO extends BaseDTO
     /** @var ShowDTO[] */
     public array $trackers;
 
-    public static function fromCollection(Collection $projects): self
+    public static function fromCollectionIndex(Collection $projects): self
     {
         $data = [];
         $data = collect($projects)->map(function ($project) {

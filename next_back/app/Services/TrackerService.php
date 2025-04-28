@@ -29,7 +29,7 @@ class TrackerService
         } else {
             $model = $this->repositories->all_with_closed($data['project_id']);
         }
-        $dto = IndexDTO::fromCollection($model);
+        $dto = IndexDTO::fromCollectionIndex($model);
         return $dto;
     }
 

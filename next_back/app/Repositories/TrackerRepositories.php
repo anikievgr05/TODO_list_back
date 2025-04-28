@@ -11,10 +11,10 @@ class TrackerRepositories extends BaseRepositories
         $this->model = new Tracker;
     }
 
-    public function all_by_parent(int $parent_id)
+    public function all_by_parent(int $parent_id, string $fill = 'project_id')
     {
         return $this->model
-            ->where('project_id', $parent_id)
+            ->where($fill, $parent_id)
             ->where('is_closed', false)
             ->get();
     }

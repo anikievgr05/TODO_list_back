@@ -19,10 +19,10 @@ class BaseRepositories
         return $this->model->all();
     }
 
-    public function all_by_parent(int $parent_id)
+    public function all_by_parent(int $parent_id, string $fill)
     {
         return $this->model
-            ->where('parent_id', $parent_id)
+            ->where($fill, $parent_id)
             ->get();
     }
 

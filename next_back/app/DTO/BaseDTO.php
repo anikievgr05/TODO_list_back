@@ -3,6 +3,7 @@
 namespace App\DTO;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 abstract class BaseDTO
 {
@@ -74,5 +75,15 @@ abstract class BaseDTO
     {
         // Преобразуем модель в массив и создаем DTO
         return new static($model->toArray());
+    }
+
+    public static function fromCollection(Collection $collection, string $dtoClass, string $propertyName): self
+    {
+        $data = [];
+        $data[$propertyName] = $collection->map(function (Model $item) use ($dtoClass) {
+            return $dtoClass::fromModel($item);
+        })->toArray();
+
+        return new static($data);
     }
 }

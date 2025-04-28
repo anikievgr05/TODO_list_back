@@ -19,10 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'validate.project' => \App\Http\Middleware\CheckProjectRequest::class,
-            'validate.trackerInProject' => \App\Http\Middleware\CheckTrackerInProjectRequest::class
+            'validate.trackerInProject' => \App\Http\Middleware\CheckTrackerInProjectRequest::class,
+            'role' => \App\Http\Middleware\RoleRequest::class
         ]);
-
-        //
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
