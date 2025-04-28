@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware\Middleware;
+namespace App\Http\Middleware;
 
 use App\Repositories\ProjectRepositories;
 use App\Repositories\TrackerRepositories;

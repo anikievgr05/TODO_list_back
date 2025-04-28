@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Middleware\Middleware;
+namespace App\Http\Middleware;
 
-use App\Http\Requests\CheckProjectNameRequest;
+use App\Rules\Project\CheckClose;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CheckProjectNameRequest;
+use Illuminate\Validation\Rule;
 
 class CheckProjectRequest
 {
