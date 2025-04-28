@@ -8,12 +8,15 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class CheckClosed implements ValidationRule
 {
-    private $repositories;
+    private BaseRepositories $repositories;
+
+    private bool $with_closed;
 
     private string $searchField;
-    public function __construct(BaseRepositories $repositories, string $searchField = 'id'){
+    public function __construct(BaseRepositories $repositories, bool $with_closed = false, string $searchField = 'id'){
         $this->searchField = $searchField;
         $this->repositories = $repositories;
+        $this->with_closed = $with_closed;
     }
 
     /**
@@ -23,9 +26,11 @@ class CheckClosed implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $model = $this->repositories->get_by_field($this->searchField, $value);
-        if ($model->is_closed) {
-            $fail('# Объект заблокирован, сначала его следует разблокировать');
+        if (!$this->with_closed) {
+            $model = $this->repositories->get_by_field($this->searchField, $value);
+            if ($model->is_closed) {
+                $fail('# Объект заблокирован, сначала его следует разблокировать');
+            }
         }
     }
 }

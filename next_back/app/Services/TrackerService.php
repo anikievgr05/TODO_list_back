@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Tracker\CloseDTO;
 use App\DTO\Tracker\IndexDTO;
 use App\DTO\Tracker\ShowDTO;
 use App\DTO\Tracker\StoreDTO;
@@ -41,7 +42,7 @@ class TrackerService
 
     public function show(ShowDTO $dto): ShowDTO
     {
-        $model = $this->repositories->find($dto->id);
+        $model = $this->repositories->find($dto->tracker);
         $dto = ShowDTO::fromModel($model);
         return $dto;
     }
@@ -49,6 +50,13 @@ class TrackerService
     public function update(UpdateDTO $data): ShowDTO
     {
         $model = $this->repositories->update($data->id, ['name' => $data->name]);
+        $dto = ShowDTO::fromModel($model);
+        return $dto;
+    }
+
+    public function close(CloseDTO $data): ShowDTO
+    {
+        $model = $this->repositories->update($data->id, $data->toArray());
         $dto = ShowDTO::fromModel($model);
         return $dto;
     }

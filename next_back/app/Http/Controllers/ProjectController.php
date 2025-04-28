@@ -69,7 +69,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * получаем проект по id даже если он заблокирован
+     * получаем проект даже если он заблокирован
      */
     public function get_closed_project(ShowClosedProjectRequest $request, ProjectService $service)
     {

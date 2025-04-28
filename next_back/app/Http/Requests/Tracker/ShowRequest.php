@@ -11,6 +11,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ShowRequest extends FormRequest
 {
+    private mixed $with_closed = false;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -27,8 +29,16 @@ class ShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tracker' => ['required', 'numeric', 'exists:trackers,id', new CheckClosed(New TrackerRepositories())]
+            'tracker' => ['required', 'numeric', 'exists:trackers,id', new CheckClosed(New TrackerRepositories(), $this->with_closed)],
+            'with_closed' => ['boolean']
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        if (in_array($this->input('with_closed'), ["1", 1])) {
+            $this->with_closed = (bool) $this->input('with_closed');
+        }
     }
 
     public function validationData(): array
@@ -42,6 +52,7 @@ class ShowRequest extends FormRequest
             'tracker.required' => 'ID долже присутсвовать',
             'tracker.numeric' => 'ID должен содержать число',
             'tracker.exists' => 'Трекера с таким ID не существет',
+            'with_closed.boolean' => 'Параметр должен быть bool',
         ];
     }
 

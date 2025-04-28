@@ -9,6 +9,7 @@ class ShowDTO extends BaseDTO
     /**
      * @var int
      */
+    public int $tracker;
     public int $id;
 
     /**
@@ -25,4 +26,6 @@ class ShowDTO extends BaseDTO
      * @var bool открыт/зарыт трекер
      */
     public bool $is_closed;
+
+    public $with_closed = false;
 }

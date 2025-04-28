@@ -27,6 +27,14 @@ class IndexRequest extends FormRequest
             'with_closed' => ['boolean']
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'with_closed' => '# Атрибут должен быть boolean',
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));

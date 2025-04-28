@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Tracker\CloseDTO;
 use App\DTO\Tracker\ShowDTO;
 use App\DTO\Tracker\StoreDTO;
 use App\DTO\Tracker\UpdateDTO;
 use App\Http\Requests\IndexRequest;
+use App\Http\Requests\Tracker\CloseRequest;
 use App\Http\Requests\Tracker\CreateRequests;
 use App\Http\Requests\Tracker\ShowRequest;
 use App\Http\Requests\Tracker\UpdateRequest;
@@ -46,7 +48,7 @@ class TrackerController extends Controller
      */
     public function show(ShowRequest $request): JsonResponse
     {
-        $dto = ShowDTO::fromArray(['id' => (int) $request->route('tracker')]);
+        $dto = ShowDTO::fromArray($request->validated());
         $data = $this->service->show($dto);
         return response()->json([
             $data->toArray(),
@@ -62,6 +64,16 @@ class TrackerController extends Controller
         $data = $this->service->update($dto);
         return response()->json([
             $data->toArray(),
+        ], 201);
+    }
+
+
+    public function close(CloseRequest $request)
+    {
+        $dto = CloseDTO::fromArray($request->validated());
+        $data = $this->service->close($dto);
+        return response()->json([
+            'project' => $data->toArray()
         ], 201);
     }
 }
