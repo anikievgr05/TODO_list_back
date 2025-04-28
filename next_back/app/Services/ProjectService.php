@@ -30,7 +30,7 @@ class ProjectService
     public function index(): IndexDTO
     {
         $model = $this->repositories->all();
-        $dto = IndexDTO::fromCollection($model);
+        $dto = IndexDTO::fromCollectionProject($model);
         return $dto;
     }
 
@@ -70,7 +70,7 @@ class ProjectService
     public function all_with_closed(): IndexDTO
     {
         $model = $this->repositories->all_with_closed();
-        $dto = IndexDTO::fromCollection($model);
+        $dto = IndexDTO::fromCollectionProject($model);
         return $dto;
     }
 
