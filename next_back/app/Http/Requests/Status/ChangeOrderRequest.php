@@ -20,7 +20,7 @@ class ChangeOrderRequest extends BaseRequest
     {
         return [
             'project_id' => 'required',
-            'status' => ['required', 'numeric', 'exists:statuses,id',  new CheckClosed(new StatusRepositories())],
+            'status' => ['required', 'numeric', 'exists:statuses,id'],
             'action' => ['required', 'string', Rule::in(['up', 'down'], 'exists:statuses,id')]
         ];
     }
