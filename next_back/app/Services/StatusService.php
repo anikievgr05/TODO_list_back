@@ -41,7 +41,7 @@ class StatusService
      */
     public function store(StoreDTO $data): ShowDTO
     {
-        $lat_order = $this->repository->get_last_by_order($data->project_id)->order;
+        $lat_order = $this->repository->get_last_by_order($data->project_id)->order ?? 0;
         $data->order = $lat_order + 1;
         $model = $this->repository->create($data->toArray());
         $dto = ShowDTO::fromModel($model);
