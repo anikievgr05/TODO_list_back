@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Status;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Database\Query\Builder;
@@ -17,21 +17,26 @@ class StoreRequest extends BaseRequest
     {
         return [
             'project_id' => 'required',
-            'name' => ['required', 'string', 'max:20', 'min:2', Rule::unique('roles')->where(function (Builder $query) {
-                $query->where('project_id', $this->project_id);
-            })],
+            'name' => ['required',
+                'string',
+                'max:20',
+                'min:2',
+                Rule::unique('statuses')->where(function (Builder $query) {
+                    $query->where('project_id', $this->project_id);
+                })
+            ],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'project_id.required' => '# Должен бытьid проекта',
+            'project_id.required' => '# Должен быть id проекта',
             'name.required' => '# Поле "Название" обязательно для заполнения.',
             'name.string' => '# Поле "Название" должно быть строкой.',
             'name.max' => '# Поле "Название" не должно превышать :max символов.',
             'name.min' => '# Поле "Название" не должно быть меньше :min символов.',
-            'name.unique' => '# Роль с таким названием уже существует.',
+            'name.unique' => '# Статус с таким названием уже существует.',
         ];
     }
 }

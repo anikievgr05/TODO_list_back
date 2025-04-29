@@ -3,8 +3,10 @@
 namespace App\Http\Requests\Tracker;
 
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class CreateRequests extends FormRequest
 {
@@ -24,8 +26,10 @@ class CreateRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => 'required', 'integer', 'exists:projects,id',
-            'name' => ['required', 'string', 'max:20', 'min:2', 'unique:trackers,name'],
+            'project_id' => 'required',
+            'name' => ['required', 'string', 'max:20', 'min:2', Rule::unique('trackers')->where(function (Builder $query) {
+                $query->where('project_id', $this->project_id);
+            })],
         ];
     }
 
@@ -42,9 +46,7 @@ class CreateRequests extends FormRequest
             'name.max' => '# Поле "Название" не должно превышать :max символов.',
             'name.min' => '# Поле "Название" не должно быть меньше :min символов.',
             'name.unique' => '# Трекер с таким названием уже существует.',
-            'project_id.required' => '# ID проекта обязателен',
-            'project_id.integer' => '# ID трекера должен быть int',
-            'project_id.exists' => '# Проекта с таким ID не существует',
+            'project_id.required' => '# ID проекта обязателен1'
         ];
     }
 

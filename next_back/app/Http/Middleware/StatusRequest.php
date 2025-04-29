@@ -3,21 +3,20 @@
 namespace App\Http\Middleware;
 
 use App\Repositories\ProjectRepositories;
-use App\Repositories\RoleRepositories;
+use App\Repositories\StatusRepositories;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoleRequest
+class StatusRequest
 {
-
-    private RoleRepositories $repositories;
+    private StatusRepositories $repositories;
 
     private ProjectRepositories $repositoriesProject;
     public function __construct()
     {
-        $this->repositories = new RoleRepositories;
+        $this->repositories = new StatusRepositories;
         $this->repositoriesProject = new ProjectRepositories();
 
     }
@@ -29,16 +28,16 @@ class RoleRequest
     public function handle(Request $request, Closure $next): Response
     {
         $rules = [
-            'id' => ['required', 'numeric', 'exists:roles,id'],
+            'id' => ['required', 'numeric', 'exists:statuses,id'],
         ];
-        $validator = Validator::make(['id' => $request->route('role')], $rules);
+        $validator = Validator::make(['id' => $request->status], $rules);
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 422);
         }
-        $role = $this->repositories->get_project_by_id_status((int) $request->route('role'));
-        if ($role->project->id !== (int) $request->project_id) {
+        $status = $this->repositories->get_project_by_id_status((int) $request->route('status'));
+        if ($status->project->id !== (int) $request->project_id) {
             $project = $this->repositoriesProject->find((int) $request->project_id);
             return response()->json([
                 'errors' => ['данный трекер не является трекером проекта: ' . $project->name],

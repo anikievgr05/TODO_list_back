@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Tracker;
 
+use App\Repositories\RoleRepositories;
 use App\Repositories\TrackerRepositories;
 use App\Rules\CheckClosed;
 use App\Rules\UniqueName;
+use App\Rules\UniqueNameByProjectId;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -27,7 +29,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:20', 'min:2', new UniqueName($this->input('id'), new TrackerRepositories())],
+            'name' => ['required', 'string', 'max:20', 'min:2', new UniqueNameByProjectId($this->id, $this->project_id, new TrackerRepositories())],
             'id' => ['required', 'numeric', 'exists:trackers,id', new CheckClosed(new TrackerRepositories())],
         ];
     }

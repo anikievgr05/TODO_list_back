@@ -17,4 +17,10 @@ class RoleRepositories extends BaseRepositories
             ->where('is_closed', false)
             ->get();
     }
+    public function get_project_by_id_status(int $role_id)
+    {
+        return $this->model
+            ->with('project')
+            ->find($role_id);
+    }
 }

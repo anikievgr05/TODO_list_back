@@ -89,6 +89,16 @@ class BaseRepositories
             ->count();
     }
 
+    public function get_by_key_excluding_id_in_parent(string $key, string $value, int $id, string $fill_parent_id, int $id_parent)
+    {
+        return $this->model
+            ->select('id')
+            ->where($key, '=', $value)
+            ->where($fill_parent_id, $id_parent)
+            ->where('id', '!=', $id)
+            ->count();
+    }
+
     /**
      * Удалить запись.
      *

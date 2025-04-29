@@ -18,12 +18,19 @@ class Project extends Model
     {
         return $this->hasMany(Role::class);
     }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class);
+    }
+
     protected static function booted()
     {
         static::updating(function ($project) {
             if ($project->isDirty('is_closed')) {
                 $project->trackers()->update(['is_closed' => $project->is_closed]);
                 $project->roles()->update(['is_closed' => $project->is_closed]);
+                $project->statuses()->update(['is_closed' => $project->is_closed]);
             }
         });
     }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Role;
+namespace App\Http\Requests\Status;
 
 use App\Http\Requests\BaseRequest;
-use App\Repositories\RoleRepositories;
+use App\Repositories\StatusRepositories;
 use App\Rules\CheckClosed;
 use App\Rules\UniqueName;
 use App\Rules\UniqueNameByProjectId;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends BaseRequest
 {
@@ -16,13 +15,12 @@ class UpdateRequest extends BaseRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    //TODo надо добавить проверку на связь дочернего объекта к родительскому !!везде!
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:20', 'min:2', new UniqueNameByProjectId($this->id, $this->project_id, new RoleRepositories())],
-            'id' => ['required', 'numeric', 'exists:roles,id', new CheckClosed(new RoleRepositories())],
-            'project_id' => ['required'],
+            'name' => ['required', 'string', 'max:20', 'min:2', new UniqueNameByProjectId($this->input('id'), $this->project_id, new StatusRepositories())],
+            'id' => ['required', 'numeric', 'exists:statuses,id', new CheckClosed(new StatusRepositories())],
+            'project_id' => ['required']
         ];
     }
     public function messages(): array
