@@ -42,7 +42,6 @@ class StatusRepositories extends BaseRepositories
             ->select('id', 'order')
             ->where('order', $sign, $order)
             ->where('project_id', $parent_id)
-            ->where('is_closed', false)
             ->orderBy('order', $sign == '>' ? 'asc' : 'desc')
             ->first();
     }
