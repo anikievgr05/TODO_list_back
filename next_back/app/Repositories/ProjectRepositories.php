@@ -22,4 +22,26 @@ class ProjectRepositories extends BaseRepositories
     {
         return $this->model->all();
     }
+
+    public function all_users($id)
+    {
+        $data = $this->model
+            ->where('id', $id)
+            ->with(['users' => function ($query) {
+                $query->wherePivot('is_fired', false);
+            }])
+            ->first();
+        return $data->users;
+    }
+
+    public function all_users_with_fired($id)
+    {
+        $data = $this->model
+            ->where('id', $id)
+            ->with('users')
+            ->first();
+        return $data->users;
+    }
+
+
 }

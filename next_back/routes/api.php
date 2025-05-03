@@ -11,6 +11,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 // TODO перенести на верх
 require __DIR__.'/api/project.php';
+require __DIR__.'/api/user.php';
 Route::group(['prefix' => '{project_id}', 'middleware' => 'validate.project'], function () {
     require __DIR__ . '/api/tracker.php';
     require __DIR__ . '/api/role.php';

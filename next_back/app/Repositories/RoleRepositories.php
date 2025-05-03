@@ -23,4 +23,6 @@ class RoleRepositories extends BaseRepositories
             ->with('project')
             ->find($role_id);
     }
+
+    
 }

@@ -24,6 +24,16 @@ class Project extends Model
         return $this->hasMany(Status::class);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('is_fired');
+    }
+
+    public function project_user()
+    {
+        return $this->belongsToMany(ProjectUser::class);
+    }
+
     protected static function booted()
     {
         static::updating(function ($project) {
@@ -31,6 +41,7 @@ class Project extends Model
                 $project->trackers()->update(['is_closed' => $project->is_closed]);
                 $project->roles()->update(['is_closed' => $project->is_closed]);
                 $project->statuses()->update(['is_closed' => $project->is_closed]);
+                $project->project_user()->update(['is_fired' => $project->is_closed]);
             }
         });
     }

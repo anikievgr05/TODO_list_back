@@ -21,7 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'validate.project' => \App\Http\Middleware\CheckProjectRequest::class,
             'validate.trackerInProject' => \App\Http\Middleware\CheckTrackerInProjectRequest::class,
             'role' => \App\Http\Middleware\RoleRequest::class,
-            'status'=> \App\Http\Middleware\StatusRequest::class
+            'status'=> \App\Http\Middleware\StatusRequest::class,
+            'user' => \App\Http\Middleware\UserRequest::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
