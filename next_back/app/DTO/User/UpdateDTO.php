@@ -10,10 +10,11 @@ class UpdateDTO extends BaseDTO
 
     public int $role_id;
 
-    public int $project_id;
+    public int | null $project_id = null;
 
     public string $name;
 
     public string $email;
 
+    public string | null $password = null;
 }

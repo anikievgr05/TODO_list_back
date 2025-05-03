@@ -15,6 +15,7 @@ use App\Repositories\ProjectUserRepositories;
 use App\Repositories\RoleRepositories;
 use App\Repositories\RoleUserRepositories;
 use App\Repositories\UserRepositories;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -71,10 +72,14 @@ class UserService
      */
     public function update(UpdateDTO $data): ShowDTO
     {
-        $model_user = $this->repository->update($data->user, [
+        $data_update = [
             'name' => $data->name,
             'email' => $data->email,
-        ]);
+        ];
+        if ($data->password) {
+            $data_update['password'] = Hash::make($data->password);
+        }
+        $model_user = $this->repository->update($data->user, $data_update);
         if ($data->project_id) {
             $repository_role = new RoleUserRepositories();
             if (!$repository_role->userHasRoleInProject($data->user, $data->project_id)) {

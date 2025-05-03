@@ -15,6 +15,7 @@ use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\ShowRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Requests\User\UpdateUserGlobalRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -68,6 +69,13 @@ class UserController extends Controller
         return response()->json($data->toArray(), 201);
     }
 
+    public function update_global(UpdateUserGlobalRequest $request)
+    {
+        $dto = UpdateDTO::fromArray($request->validated());
+        $data = $this->service->update($dto);
+        return response()->json($data->toArray(), 201);
+
+    }
 
     public function fire(FireRequest $request)
     {
