@@ -15,4 +15,6 @@ class ShowDTO extends BaseDTO
     public bool | null $is_fired = null;
 
     public array | null $roles = null;
+
+    public array | null $projects = null;
 }

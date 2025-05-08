@@ -52,7 +52,9 @@ class UserService
      */
     public function store(StoreDTO $data): ShowDTO
     {
+        $projects_ids = array_column($this->repository_project->all_with_closed()->toArray(), 'id');
         $model = $this->repository->create($data->toArray());
+        $this->repository->attachProject($model, $projects_ids);
         $dto = ShowDTO::fromModel($model);
         return $dto;
     }
@@ -63,7 +65,16 @@ class UserService
     public function show(ShowValidDTO $data): ShowDTO
     {
         $model = $this->repository->find($data->id);
+
         $dto = ShowDTO::fromModel($model);
+        if ($model->projects->isEmpty()) {
+            $projects = $this->repository_project->all_with_closed()->toArray();
+            $model_projects = [];
+            foreach ($projects as $project) {
+                $model_projects[] = $project;
+            }
+            $dto->projects = $model_projects;
+        }
         return $dto;
     }
 
@@ -95,6 +106,9 @@ class UserService
                     ]);
                 }
             }
+        }
+        if ($data->projects) {
+            $model_user = $this->repository->update_project($data->user, $data->projects);
         }
         $dto = ShowDTO::fromModel($model_user);
         return $dto;

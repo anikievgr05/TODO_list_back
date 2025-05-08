@@ -17,4 +17,6 @@ class UpdateDTO extends BaseDTO
     public string $email;
 
     public string | null $password = null;
+
+    public array | null $projects = null;
 }

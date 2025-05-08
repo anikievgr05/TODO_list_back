@@ -11,20 +11,23 @@ use App\DTO\Project\UpdateDTO;
 use App\DTO\ShowDTO;
 use App\Http\Requests\Project\GetByNameRequest;
 use App\Repositories\ProjectRepositories;
+use App\Repositories\UserRepositories;
 use Illuminate\Http\Request;
 
 class ProjectService
 {
     private ProjectRepositories $repositories;
+    private UserRepositories $repositories_users;
 
     /**
      * Конструктор сервиса.
      *
      * @param ProjectRepositories $repositories
      */
-    public function __construct(ProjectRepositories $repositories)
+    public function __construct(ProjectRepositories $repositories, UserRepositories $userRepositories)
     {
         $this->repositories = $repositories;
+        $this->repositories_users = $userRepositories;
     }
 
     public function index(): IndexDTO
@@ -48,7 +51,9 @@ class ProjectService
      */
     public function create(CreateDTO $data): ReadDTO
     {
+        $users = array_column($this->repositories_users->all()->toArray(), 'id');
         $model = $this->repositories->create($data->toArray());
+        $this->repositories->attachUser($model,$users);
         $dto = ReadDTO::fromModel($model);
         return $dto;
     }
@@ -80,4 +85,5 @@ class ProjectService
         $dto = ReadDTO::fromModel($model);
         return $dto;
     }
+
 }

@@ -42,6 +42,9 @@ class ProjectRepositories extends BaseRepositories
             ->first();
         return $data->users;
     }
-
-
+    public function attachUser(Project $project, array $users_ids)
+    {
+        $project->users()->attach($users_ids);
+        return true;
+    }
 }
