@@ -6,5 +6,7 @@ use App\DTO\BaseDTO;
 
 class ShowValidDTO extends BaseDTO
 {
-    public int $id;
+    public int $user;
+
+    public int | null $project_id = null;
 }

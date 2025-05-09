@@ -53,7 +53,7 @@ class ProjectService
     {
         $users = array_column($this->repositories_users->all()->toArray(), 'id');
         $model = $this->repositories->create($data->toArray());
-        $this->repositories->attachUser($model,$users);
+        $this->repositories->attachUser($model, $users);
         $dto = ReadDTO::fromModel($model);
         return $dto;
     }

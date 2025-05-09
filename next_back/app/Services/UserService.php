@@ -8,13 +8,17 @@ use App\DTO\User\ShowDTO;
 use App\DTO\User\ShowValidDTO;
 use App\DTO\User\StoreDTO;
 use App\DTO\User\UpdateDTO;
+use App\DTO\User\UpdateRoleDTO;
 use App\DTO\User\UsersDTO;
 use App\Http\Requests\User\FireAllRequest;
+use App\Http\Requests\User\UpdateRoleRequest;
+use App\Http\Requests\User\UserRoleDTO;
 use App\Repositories\ProjectRepositories;
 use App\Repositories\ProjectUserRepositories;
 use App\Repositories\RoleRepositories;
 use App\Repositories\RoleUserRepositories;
 use App\Repositories\UserRepositories;
+use App\Repositories\UserRoleRepositories;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -23,10 +27,13 @@ class UserService
 
     public ProjectRepositories $repository_project;
 
+    public UserRoleRepositories $repository_user_role;
+
     public function __construct()
     {
         $this->repository = new UserRepositories;
         $this->repository_project = new ProjectRepositories;
+        $this->repository_user_role = new UserRoleRepositories;
     }
 
     /**
@@ -64,7 +71,12 @@ class UserService
      */
     public function show(ShowValidDTO $data): ShowDTO
     {
-        $model = $this->repository->find($data->id);
+        if (!$data->project_id)
+        {
+            $model = $this->repository->find($data->user);
+        } else {
+            $model = $this->repository->find_with_roles($data->user, $data->project_id);
+        }
 
         $dto = ShowDTO::fromModel($model);
         if ($model->projects->isEmpty()) {
@@ -130,5 +142,18 @@ class UserService
         $project_user_repository = new ProjectUserRepositories();
         $model = $project_user_repository->update_in_all_projects_user($data->user, $data->is_fire);
         return $model;
+    }
+
+    public function update_role(UpdateRoleDTO $data)
+    {
+        $old_role = $this->repository->find_with_roles($data->user, $data->project_id);
+        if ($old_role->roles->isEmpty()) {
+            $old_role = $data->role;
+        } else {
+            $old_role = $old_role->roles->first()->id;
+        }
+        $new_data = $this->repository_user_role->update_or_create_role_for_user($data->user, $data->role, $old_role);
+        $dto = UserRoleDTO::fromModel($new_data);
+        return $dto;
     }
 }

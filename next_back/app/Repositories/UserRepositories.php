@@ -27,6 +27,16 @@ class UserRepositories extends BaseRepositories
         return true;
     }
 
+    public function find_with_roles(int $id, int $project_id)
+    {
+        return $this->model
+            ->where('id', $id)
+            ->with(['roles' => function ($query) use ($project_id) {
+                $query->where('roles.project_id', $project_id);
+            }])
+            ->first();
+    }
+
     public function update_project(int $id, array $project)
     {
         $user = $this->model

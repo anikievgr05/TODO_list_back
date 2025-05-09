@@ -13,4 +13,5 @@ Route::group(['prefix' => 'user_project' , 'middleware' => 'user'], function () 
     Route::put('/{user}', [UserController::class, 'update'])->name('user_project.update');
     Route::put('fire/{user}', [UserController::class, 'fire'])->name('user_project.fire');
     Route::put('fire_all/{user}', [UserController::class, 'fire_all'])->name('user_project.fire_all');
+    Route::put('update_role/{user}', [UserController::class, 'update_role'])->name('user_project.update_role');
 });

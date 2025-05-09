@@ -11,4 +11,9 @@ class ProjectUser extends Model
     protected $table = 'project_user';
 
     public $timestamps = false;
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

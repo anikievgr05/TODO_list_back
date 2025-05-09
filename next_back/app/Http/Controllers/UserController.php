@@ -9,12 +9,14 @@ use App\DTO\User\ShowDTO;
 use App\DTO\User\ShowValidDTO;
 use App\DTO\User\StoreDTO;
 use App\DTO\User\UpdateDTO;
+use App\DTO\User\UpdateRoleDTO;
 use App\Http\Requests\User\FireAllRequest;
 use App\Http\Requests\User\FireRequest;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\ShowRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Http\Requests\User\UpdateRoleRequest;
 use App\Http\Requests\User\UpdateUserGlobalRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -52,9 +54,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(ShowRequest $request)
     {
-        $dto = ShowValidDTO::fromArray(['id' => $request->user]);
+        $dto = ShowValidDTO::fromArray($request->validated());
         $data = $this->service->show($dto);
         return response()->json($data->toArray(), 201);
     }
@@ -89,5 +91,12 @@ class UserController extends Controller
         $dto = FireAllDTO::fromArray($request->validated());
         $data = $this->service->fire_all($dto);
         return response()->json($data, 201);
+    }
+
+    public function update_role(UpdateRoleRequest $request)
+    {
+        $dto = UpdateRoleDTO::fromArray($request->validated());
+        $data = $this->service->update_role($dto);
+        return response()->json($data->toArray(), 201);
     }
 }
