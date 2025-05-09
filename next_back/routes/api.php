@@ -16,4 +16,5 @@ Route::group(['prefix' => '{project_id}', 'middleware' => 'validate.project'], f
     require __DIR__ . '/api/tracker.php';
     require __DIR__ . '/api/role.php';
     require __DIR__ . '/api/status.php';
+    require __DIR__ . '/api/priority.php';
 });

@@ -24,6 +24,11 @@ class Project extends Model
         return $this->hasMany(Status::class);
     }
 
+    public function priorities()
+    {
+        return $this->hasMany(Priority::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class)->withPivot('is_fired');

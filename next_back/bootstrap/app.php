@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'validate.trackerInProject' => \App\Http\Middleware\CheckTrackerInProjectRequest::class,
             'role' => \App\Http\Middleware\RoleRequest::class,
             'status'=> \App\Http\Middleware\StatusRequest::class,
+            'priority'=> \App\Http\Middleware\PriorityRequest::class,
             'user' => \App\Http\Middleware\UserRequest::class,
         ]);
     })
