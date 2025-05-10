@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Task\CreateDTO;
+use App\DTO\Task\IndexDTO;
 use App\Http\Requests\Task\CreateRequest;
+use App\Http\Requests\Task\IndexRequest;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 
@@ -19,9 +21,11 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        //
+        $dto = IndexDTO::fromArray($request->validated());
+        $data = $this->service->index($dto);
+        return response()->json($data->toArray(), 201);
     }
 
     /**

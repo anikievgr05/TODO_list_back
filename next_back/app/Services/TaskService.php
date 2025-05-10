@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\DTO\Task\CreateDTO;
+use App\DTO\Task\IndexDTO;
 use App\DTO\Task\ShowDTO;
+use App\DTO\Task\TaskDTO;
+use App\DTO\Task\TasksDTO;
 use App\Models\TaskFile;
 use App\Repositories\StatusRepositories;
 use App\Repositories\TaskFileRepository;
@@ -22,6 +25,18 @@ class TaskService
         $this->repository = new TaskRepository;
         $this->repository_file = new TaskFileRepository;
         $this->repository_status = new StatusRepositories();
+    }
+
+    public function index(IndexDTO $data)
+    {
+        if (!$data->responsible_id) {
+            $data->responsible_id = auth()->id();
+        }
+        $model = $this->repository->get_tasks($data);
+        $dto = TasksDTO::fromCollection($model->collect(), TaskDTO::class, 'tasks');
+        $dto->currentPage = $model->currentPage();
+        $dto->lastPage = $model->lastPage();
+        return $dto;
     }
 
     public function create(CreateDTO $data)

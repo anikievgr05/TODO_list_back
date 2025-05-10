@@ -29,6 +29,15 @@ class StatusRepositories extends BaseRepositories
             ->first();
     }
 
+    public function get_last_by_order_without_closed(int $project_id)
+    {
+        return $this->model
+            ->where('project_id', $project_id)
+            ->where('is_closed', false)
+            ->orderBy('order', 'desc')
+            ->first();
+    }
+
     public function get_first_by_order(int $project_id)
     {
         return $this->model

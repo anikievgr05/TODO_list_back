@@ -18,10 +18,21 @@ class Task extends Model
         return $this->belongsTo(Tracker::class);
     }
 
-    public function user()
+    public function responsible()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'responsible_id');
     }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class, 'reviewer_id');
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
     public function priority()
     {
         return $this->belongsTo(Priority::class);
