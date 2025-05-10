@@ -28,6 +28,14 @@ class StatusRepositories extends BaseRepositories
             ->orderBy('order', 'desc')
             ->first();
     }
+
+    public function get_first_by_order(int $project_id)
+    {
+        return $this->model
+            ->where('project_id', $project_id)
+            ->orderBy('order')
+            ->first();
+    }
     public function all_by_parent(int $parent_id, string $fill)
     {
         return $this->model
