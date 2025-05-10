@@ -20,7 +20,7 @@ class UpdateRequest extends BaseRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email'],
-            'password' => ['string', 'min:8', 'confirmed'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'project_id' => ['required', 'numeric', 'exists:projects,id'],
             'role_id' => ['required', 'numeric', 'exists:roles,id', Rule::exists('roles', 'id')->where(function ($query) {
                 $query->where('project_id', $this->input('project_id'));
