@@ -33,8 +33,28 @@ class TaskRepository extends BaseRepositories
         });
         $query->with('priority', 'status', 'tracker', 'responsible', 'reviewer', 'author', 'files');
         if ($dto->order_by_field) {
-            $query->orderBy($dto->order_by_field, $dto->order_by_method ?? 'asc');
+            $query->orderBy($dto->order_by_field, $dto->order_by_method );
         }
-        return $query->paginate(50, ['*'], 'page', $dto->page);
+        return $query->paginate(5, ['*'], 'page', $dto->page);
+    }
+
+    public function get_project_by_id_status(int $status_id)
+    {
+        return $this->model
+            ->with('project')
+            ->find($status_id);
+    }
+
+    public function find($id) {
+        return $this->model
+            ->with('project')
+            ->with('status')
+            ->with('tracker')
+            ->with('responsible')
+            ->with('reviewer')
+            ->with('author')
+            ->with('files')
+            ->with('priority')
+            ->find($id);
     }
 }

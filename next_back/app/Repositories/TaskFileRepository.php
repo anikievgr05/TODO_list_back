@@ -12,4 +12,11 @@ class TaskFileRepository extends BaseRepositories
     {
         $this->model = new TaskFile();
     }
+
+    public function find($id)
+    {
+        return $this->model
+            ->find($id)
+            ->first();
+    }
 }

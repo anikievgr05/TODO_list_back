@@ -11,4 +11,5 @@ Route::group(['prefix' => 'status' , 'middleware' => 'status'], function () {
     Route::put('/change_order/{status}/{action}', [StatusContoller::class, 'change_order'])->name('status.change_order');
     Route::get('/{status}', [StatusContoller::class, 'show'])->name('status.show');
     Route::put('/{status}', [StatusContoller::class, 'update'])->name('status.update');
+    Route::get('/{status}/next_status', [StatusContoller::class, 'next_status'])->name('status.next_status');
 });

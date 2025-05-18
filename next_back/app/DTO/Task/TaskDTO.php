@@ -25,6 +25,4 @@ class TaskDTO extends BaseDTO
     public array $author;
 
     public array $files;
-
-
 }

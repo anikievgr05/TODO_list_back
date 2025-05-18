@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Status\ChangeOrderDTO;
 use App\DTO\Status\CloseDTO;
 use App\DTO\Status\IndexDTO;
+use App\DTO\Status\NextStatusValidDTO;
 use App\DTO\Status\ShowDTO;
 use App\DTO\Status\ShowValidDTO;
 use App\DTO\Status\StatusesDTO;
@@ -94,6 +95,17 @@ class StatusService
             $swapWith->save();
         }
         $dto = ShowDTO::fromModel($status);
+        return $dto;
+    }
+
+    public function next_status(NextStatusValidDTO $data)
+    {
+        $model = $this->repository->find($data->status);
+        $next_status = $this->repository->get_next_status($model->project_id, $model->order);
+        $dto = ShowDTO::fromArray([]);
+        if ($next_status) {
+            $dto = ShowDTO::fromModel($next_status);
+        }
         return $dto;
     }
 }

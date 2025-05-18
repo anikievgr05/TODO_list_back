@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\DTO\Status\ChangeOrderDTO;
 use App\DTO\Status\CloseDTO;
 use App\DTO\Status\IndexDTO;
+use App\DTO\Status\NextStatusValidDTO;
 use App\DTO\Status\ShowValidDTO;
 use App\DTO\Status\StoreDTO;
 use App\DTO\Status\UpdateDTO;
 use App\Http\Requests\Status\ChangeOrderRequest;
 use App\Http\Requests\Status\CloseRequest;
 use App\Http\Requests\Status\IndexRequest;
+use App\Http\Requests\Status\NextStatusRequest;
 use App\Http\Requests\Status\ShowRequest;
 use App\Http\Requests\Status\StoreRequest;
 use App\Http\Requests\Status\UpdateRequest;
@@ -89,6 +91,15 @@ class StatusContoller extends Controller
         $data = $this->service->change_order($dto);
         return response()->json([
             $data->toArray()
+        ], 201);
+    }
+
+    public function next_status(NextStatusRequest $request)
+    {
+        $dto = NextStatusValidDTO::fromArray($request->validated());
+        $data = $this->service->next_status($dto);
+        return response()->json([
+            $data->toArray(),
         ], 201);
     }
 }

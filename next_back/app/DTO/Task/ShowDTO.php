@@ -3,6 +3,7 @@
 namespace App\DTO\Task;
 
 use App\DTO\BaseDTO;
+use App\DTO\Project\ReadDTO;
 
 class ShowDTO extends BaseDTO
 {
@@ -25,4 +26,14 @@ class ShowDTO extends BaseDTO
     public int $priority_id;
 
     public string | null $date_end;
+
+    public array $project;
+    public array $status;
+    public array $tracker;
+    public array | null $responsible;
+    public array | null $reviewer;
+    public array $author;
+    public array $files;
+    public array $priority;
+
 }

@@ -25,9 +25,11 @@ class CheckBelongsToProject implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $obj = $this->repository->find($value);
-        if ($obj->project_id && $obj->project_id != $this->project_id) {
-            $fail('Объект не приндалежит проекту');
+        if ($value) {
+            $obj = $this->repository->find($value);
+            if ($obj->project_id && $obj->project_id != $this->project_id) {
+                $fail('Объект не приндалежит проекту');
+            }
         }
     }
 }

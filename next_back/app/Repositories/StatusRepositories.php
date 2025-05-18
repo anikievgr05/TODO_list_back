@@ -69,4 +69,14 @@ class StatusRepositories extends BaseRepositories
             ->with('project')
             ->find($status_id);
     }
+
+    public function get_next_status(int $project_id, int $status_order)
+    {
+        return $this->model
+            ->where('project_id', $project_id)
+            ->where('is_closed', false)
+            ->where('order', '>', $status_order)
+            ->orderBy('order')
+            ->first();
+    }
 }
