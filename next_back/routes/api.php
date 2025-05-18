@@ -13,9 +13,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 require __DIR__.'/api/project.php';
 require __DIR__.'/api/user.php';
 Route::group(['prefix' => '{project_id}', 'middleware' => 'validate.project'], function () {
-    require __DIR__ . '/api/tracker.php';
-    require __DIR__ . '/api/role.php';
-    require __DIR__ . '/api/status.php';
-    require __DIR__ . '/api/priority.php';
-    require __DIR__ . '/api/task.php';
+    Route::group(['middleware' => 'permission'], function () {
+        require __DIR__ . '/api/tracker.php';
+        require __DIR__ . '/api/role.php';
+        require __DIR__ . '/api/status.php';
+        require __DIR__ . '/api/priority.php';
+        require __DIR__ . '/api/task.php';
+    });
 });

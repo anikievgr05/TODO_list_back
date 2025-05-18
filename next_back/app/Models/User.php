@@ -60,4 +60,38 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function hasPermission(string $permissionName, ?int $projectId = null): bool
+    {
+        if ($this->hasSuperPermission()) {
+            return true;
+        }
+        if ($projectId && $this->hasRolePermission($permissionName, $projectId)) {
+            return true;
+        }
+
+        // Нет прав
+        return false;
+    }
+
+    private function hasSuperPermission(): bool
+    {
+        return $this->permissions()->where('name', 'all')->exists();
+    }
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'user_permissions');
+    }
+    private function hasRolePermission(string $permissionName, int $projectId): bool
+    {
+        $role = $this->roles()
+            ->where('project_id', $projectId)
+            ->first();
+
+        if ($role->permissions()->where('name', $permissionName)->first()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

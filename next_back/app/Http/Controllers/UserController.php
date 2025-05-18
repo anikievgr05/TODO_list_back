@@ -18,6 +18,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\UpdateRoleRequest;
 use App\Http\Requests\User\UpdateUserGlobalRequest;
+use App\Services\ProjectService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -97,6 +98,11 @@ class UserController extends Controller
     {
         $dto = UpdateRoleDTO::fromArray($request->validated());
         $data = $this->service->update_role($dto);
+        return response()->json($data->toArray(), 201);
+    }
+    public function get_projects_for_me(Request $request)
+    {
+        $data = $this->service->get_projects_for_me();
         return response()->json($data->toArray(), 201);
     }
 }

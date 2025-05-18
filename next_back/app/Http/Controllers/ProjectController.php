@@ -15,6 +15,7 @@ use App\Http\Requests\Project\ShowClosedProjectRequest;
 use App\Http\Requests\Project\ShowRequest;
 use App\Http\Requests\Project\UpdateRequest;
 use App\Services\ProjectService;
+use GuzzleHttp\Psr7\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProjectController extends Controller

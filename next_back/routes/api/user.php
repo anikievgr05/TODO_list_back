@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('user_project', UserController::class)->only([
     'index', 'store'
 ]);
+Route::get('user_project/get_projects_for_me', [UserController::class, 'get_projects_for_me'])->name('user_project.get_projects_for_me');
 
 Route::group(['prefix' => 'user_project' , 'middleware' => 'user'], function () {
     Route::get('/{user}', [UserController::class, 'show'])->name('user_project.show');

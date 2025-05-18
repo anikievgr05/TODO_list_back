@@ -24,7 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'status'=> \App\Http\Middleware\StatusRequest::class,
             'priority'=> \App\Http\Middleware\PriorityRequest::class,
             'user' => \App\Http\Middleware\UserRequest::class,
-            'task' => \App\Http\Middleware\TaskRequest::class
+            'task' => \App\Http\Middleware\TaskRequest::class,
+            'permission' => \App\Http\Middleware\CheckPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

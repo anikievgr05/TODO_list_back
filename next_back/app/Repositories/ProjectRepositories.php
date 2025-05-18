@@ -47,4 +47,15 @@ class ProjectRepositories extends BaseRepositories
         $project->users()->attach($users_ids);
         return true;
     }
+    public function get_projects_for_me(int $user_id)
+    {
+        return $this->model
+            ->whereDoesntHave('users', function ($query) use ($user_id) {
+                $query->where('is_fired', true)
+                    ->where('user_id', $user_id);
+            })
+            ->where('is_closed', false)
+            ->orderBy('id')
+            ->get();
+    }
 }

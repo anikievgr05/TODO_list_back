@@ -19,6 +19,7 @@ use App\Repositories\RoleRepositories;
 use App\Repositories\RoleUserRepositories;
 use App\Repositories\UserRepositories;
 use App\Repositories\UserRoleRepositories;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -154,6 +155,14 @@ class UserService
         }
         $new_data = $this->repository_user_role->update_or_create_role_for_user($data->user, $data->role, $old_role);
         $dto = UserRoleDTO::fromModel($new_data);
+        return $dto;
+    }
+
+    public function get_projects_for_me()
+    {
+        $repositories = new ProjectRepositories();
+        $model = $repositories->get_projects_for_me(Auth::id());
+        $dto = \App\DTO\Project\IndexDTO::fromCollectionProject($model);
         return $dto;
     }
 }
