@@ -19,7 +19,7 @@ class UpdateUserGlobalRequest extends BaseRequest
             'email' => ['required', 'string', 'email', Rule::unique('users', 'email')->ignore($this->user),],
             'password' => ['string', 'min:8', 'confirmed'],
             'user' => ['required', 'numeric', 'exists:users,id'],
-            'projects' => ['required', 'array']
+            'projects' => ['array']
         ];
     }
 }
